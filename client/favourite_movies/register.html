@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register Page</title>
+</head>
+<style>
+    #reg{
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+  background-color: #fb8b24;
+}
+</style>
+<body>
+  <div x-data="login"> 
+    <div x-data="register">
+    <label for="register">Please enter your name:</label>
+    <input type="text" x-model="signup.firstname" id="register" name="register" class="text-input" value=""><br><br> 
+    <label for="register">Please enter your surname:</label>
+    <input type="text" x-model="signup.lastname" id="register" name="register" class="text-input" value=""><br><br> 
+    <label for="register">Please enter your username:</label>
+    <input type="text" x-model="signup.username" id="register" name="register" class="text-input" value=""><br><br>      
+    <label for="register">Please enter your password:</label>
+    <input type="password" x-model="signup.password" id="password" name="password" class="text-input" value=""><br><br> 
+    
+    <button @click="registerUser()" type="submit" class="registerButton" name="action">Register</button>
+    </div>
+    <div class="loginPage">
+        <a href="/" class="btn btn-primary" role="button" data-bs-toggle="button">Click Button to Login</a>
+      </div>
+    </div>
+    <script type="module" src="/main.js"></script>
+    </body>
+</html>
