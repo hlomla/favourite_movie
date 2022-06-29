@@ -2,20 +2,23 @@ import axios from 'axios';
 
 export default function Register () {
     return {
+        user_info:[],
         signup: {
             firstname: '',
             lastname: '',
-            username: '',
+            email: '',
             password: ''
         },
+        register_message: '',
 
         registerUser(){
             axios
-            .post(`localhost:4090/api/signup`, this.signup)
+            .post(`http://localhost:4090/api/signup`, this.signup)
             .then(r => r.json())
-                .then(userData => {
-                    console.log(userData);
-                    this.registered = userData.data
+                .then(results => {
+                    console.log(results);
+                    this.registered = results.data
+                    this.register_message = 'You have been registered!!!'
 
                 }).catch(err => console.log(err))
         }
