@@ -6,32 +6,30 @@ module.exports = function (app, db) {
 		});
 	});
 
-    async function getUsers(firstname, lastname, username) {
-		const users = {firstname, lastname, username}
-		console.log(users)
-		return users;
-	}
+    // async function getUsers(firstname, lastname, email) {
+	// 	const users = {firstname, lastname, email}
+	// 	console.log(users)
+	// 	return users;
+	// }
     app.get('/api/signup', async (req, res) => {
 
         try {
-            const user = await getUsers(firstname, lastname, username);
-            const {firstname, lastname, username, hashPassword } = req.body;
-            
-            user = await db.manyOrNone('select * from users where firstname = $1 AND lastname = $2 AND username = $3 ', [firstname, lastname, username,]);
+            const {firstname, lastname, email, hashPassword } = req.body;
+            const user = await db.manyOrNone('select * from users where firstname = $1 AND lastname = $2 AND email = $3 AND password = $4', [firstname, lastname, email, hashPassword]);
     
             if(user !== null) {
                 throw Error('User exist')
             }
     
                 // hashPassword using bcrypt
-                const hashedPassword = await bcrypt.hash(req.body.hashPassword)
+                // const salt = await bcrypt.genSalt()
+                const hashedPassword = await bcrypt.hash(hashPassword, 10)
                 console.log(hashedPassword + 'password has been hashed') 
         
                 //insert my users to database
-                await db.none(`insert into users(firstname,lastname,username,password) values ($1,$2,$3,$4)`, [firstname, lastname, username, hashPassword])
-            
+                await db.none(`insert into users(firstname,lastname,email,password) values ($1,$2,$3,$4)`, [firstname, lastname, email, hashedPassword])
+                user.push({firstname, lastname, email, hashedPassword })
             res.json({
-                        hashPassword:hashPassword,
                         status: 'success',
                 
                     });
@@ -45,21 +43,31 @@ module.exports = function (app, db) {
         });
         app.get('/api/login', async (req, res) => {
 
-            const { firstname, lastname, username, hashPassword } = req.query;
-            let allUser = await db.manyOrNone('select * from users');
-            if (firstname && lastname && username) {
-                allUser = await db.manyOrNone('select username from users where username = $1', [username]);
+            try {
+                
+                const { firstname, lastname, email, hashPassword } = req.body;
+                let allUser = await db.manyOrNone('select * from users');
+                if (firstname && lastname && email) {
+                    allUser = await db.manyOrNone('select email from users where email = $1', [email]);
+                }
+                //compare the hashedPassword
+                allUser = await bcrypt.compare(hashPassword, allUser.hashPassword);
+    
+                if (hashPassword) {
+                    allUser = await db.manyOrNone('select password from users where password = $1', [hashPassword])
+                }
+                if (firstname && lastname && email && hashPassword) {
+                    allUser = await db.manyOrNone('select * from users where firstname = $1 AND lastname = $2 AND email = $3 AND password = $4', [firstname, lastname, email, hashPassword])
+                }
+    
+                console.log(allUser);
+                res.json({
+                    data: allUser
+                })
+            } catch (error) {
+                console.log(error.message, '-----------');
+                res.json(error)
             }
-            if (hashPassword) {
-                allUser = await db.manyOrNone('select password from users where password = $1', [hashPassword])
-            }
-            if (firstname && lastname && username && hashPassword) {
-                allUser = await db.manyOrNone('select * from users where firstname = $1 AND lastname = $2 AND username = $3 AND password = $4', [firstname, lastname, username, hashPassword])
-            }
-            console.log(user);
-            res.json({
-                data: allUser
-            })
         });
     
 

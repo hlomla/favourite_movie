@@ -25,16 +25,15 @@
         <input type="password" x-model="signup.password" id="password" name="password" class="text-input"
           value=""><br><br>
         <button @click="registerUser()" type="submit" class="registerButton" name="action">Register</button>
-
+        <br>
+        <label for="login">Please enter your email:</label>
+        <input type="text" x-model="login.username" id="login" name="login" class="text-input" value=""><br><br>
+        <label for="login">Please enter your password:</label>
+        <input type="password" x-model="login.password" id="password" name="password" class="text-input" value=""><br><br>
+        <button @click="logIn()" type="submit" class="loginButton" name="action">Login</button>
       </div>
-      <label for="login">Please enter your email:</label>
-      <input type="text" x-model="login.username" id="login" name="login" class="text-input" value=""><br><br>
-      <label for="login">Please enter your password:</label>
-      <input type="password" x-model="login.password" id="password" name="password" class="text-input" value=""><br><br>
-      <button @click="logIn()" type="submit" class="loginButton" name="action">Login</button>
 
     </div>
-
 
     <div x-data="search" class="search">
       <h1>Search Movies</h1>
