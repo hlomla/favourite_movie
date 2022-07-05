@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.17e50649.svg" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Favourite Movie App</title>
+  <script type="module" crossorigin src="/assets/index.d4b9246c.js"></script>
+  <link rel="stylesheet" href="/assets/index.c0bc2cea.css">
+</head>
+
+<body>
+  <div id="app" x-data="user_info">
+    <div x-data="login">
+      <div x-data="register">
+        <div x-text="register_message"></div>
+        <label for="register">Please enter your name:</label>
+        <input type="text" x-model="signup.firstname" id="register" name="register" class="text-input" value=""><br><br>
+        <label for="register">Please enter your surname:</label>
+        <input type="text" x-model="signup.lastname" id="register" name="register" class="text-input" value=""><br><br>
+        <label for="register">Please enter your email:</label>
+        <input type="text" x-model="signup.email" id="register" name="register" class="text-input" value=""><br><br>
+        <label for="register">Please enter your password:</label>
+        <input type="password" x-model="signup.password" id="password" name="password" class="text-input"
+          value=""><br><br>
+        <button @click="registerUser()" type="submit" class="registerButton" name="action">Register</button>
+        <br>
+        <label for="login">Please enter your email:</label>
+        <input type="text" x-model="login.username" id="login" name="login" class="text-input" value=""><br><br>
+        <label for="login">Please enter your password:</label>
+        <input type="password" x-model="login.password" id="password" name="password" class="text-input" value=""><br><br>
+        <button @click="logIn()" type="submit" class="loginButton" name="action">Login</button>
+      </div>
+
+    </div>
+
+    <div x-data="search" class="search">
+      <h1>Search Movies</h1>
+      <input type="text" class="form-control" placeholder="Search for...">
+      <button @click="searchMovie()" class="btn btn-search">Search</button>
+      <div class="">
+        <div x-text="" class="content"></div>
+      </div>
+    </div>
+    <div class="displayMovies">
+      <button @click="searchMovies()">Display Movies</button>
+      <template x-for="movie in movies">
+        <div>
+          <div x-text="movie.title"></div>
+          <img x-bind:src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`"/>
+        </div>
+      </template>
+    </div>
+
+
+  </div>
+  
+  <script src="/client/favourite_movies/register.html"></script>
+</body>
+
+</html>
